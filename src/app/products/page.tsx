@@ -1,15 +1,30 @@
-import React from 'react'
+import { getProducts } from "@/lib/api";
+import ProductCard from "@/components/ProductCard";
+import ProductSkeleton from "@/components/ProductSkeleton";
+import { Suspense } from "react";
 
-const page = () => {
+export default async function ProductListPage() {
+  const data = await getProducts(12);
+  console.log(data, 'this is product details')
+
   return (
-    <>
-        <h1>Product List</h1>
-        <h2>Product 1</h2>
-        <h2>Product 2</h2>
-        <h2>Product 3</h2>
-    </>
-
-  )
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Our Products</h1>
+      
+      <Suspense fallback={
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <ProductSkeleton key={i} />
+          ))}
+        </div>
+      }>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {data.products.map((product) => (
+            
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </Suspense>
+    </div>
+  );
 }
-
-export default page;
