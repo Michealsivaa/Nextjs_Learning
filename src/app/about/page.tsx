@@ -1,9 +1,9 @@
-import React from 'react'
+export const metadata = {
+  title: "About Codevolution"
+};
 
-const page = () => {
+export default function page() {
   return (
-    <div>About page</div>
+    <div>page</div>
   )
-}
-
-export default page;
+};
